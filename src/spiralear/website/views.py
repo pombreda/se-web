@@ -33,7 +33,7 @@ EN = Language.en.id
 
 _menu = (
     {
-        PL: ['glowna/', 'STRONA GŁÓWNA'],
+        PL: ['glowna/', 'SPIRAL EAR'],
         EN: ['frontpage/', 'SPIRAL EAR'],
         'home': True,
     },

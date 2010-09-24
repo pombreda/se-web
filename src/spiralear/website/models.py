@@ -20,14 +20,29 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from django.db import models as db
+from django.utils.safestring import mark_safe
 
 from langacore.kit.django.helpers import Choices
+
 
 class Language(Choices):
     _ = Choices.Choice
 
     en = _("English")
     pl = _("polski")
+
+
+class BlockFinder(object):
+    def __init__(self, page):
+        self.page = page
+
+    def __getattr__(self, name):
+        try:
+            block = Block.objects.get(page=self.page, name=name)
+            return mark_safe(block.content)
+        except Block.DoesNotExist:
+            return ''
+
 
 class Page(db.Model):
     url = db.CharField(verbose_name="URL", max_length=200)
@@ -38,6 +53,10 @@ class Page(db.Model):
     class Meta:
         verbose_name = "strona"
         verbose_name_plural = "strony"
+
+    def block(self):
+        return BlockFinder(self)
+
 
 class Block(db.Model):
     page = db.ForeignKey(Page, verbose_name="strona")
