@@ -1,0 +1,27 @@
+html {
+    background-color: #ffffff;
+}
+
+body {
+    margin-top: 40px;
+    font: 10pt Helvetica Neue, Tahoma, Arial, sans-serif;
+}
+
+#body {
+    max-width: 960px;
+    margin: auto;
+}
+
+#logo {
+    float: left;
+    width: 129px;
+    height: 78px;
+}
+
+#menu {
+    float: right;
+}
+
+#content {
+    clear: left;
+}

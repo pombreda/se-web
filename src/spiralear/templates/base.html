@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{%block title%}{%endblock%} - SpiralEar.com</title>
+        <meta name="keywords" content="ankieta">
+        <meta name="description" content="Ankieta.">
+        <meta name="author" content="?">
+        <meta name="generator" content="LangaCore">
+        <link rel="stylesheet" type="text/css" href="/media/css/reset-min.css"><!-- 2.7.0 -->
+        <link rel="stylesheet" type="text/css" href="/media/css/base.css">
+        <!--[if IE]>
+        <script language="javascript" type="text/javascript" src="/media/js/excanvas.min.js"></script>
+        <![endif]-->
+		<script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript">{%block js%}{%endblock%}</script>
+    <style type="text/css">{%block css%}{%endblock%}</style>
+    </head>
+    <body>
+      <div id="body">
+        <div id="header">
+          <div id="logo"><a href="/"><img src="/media/img/logo.png"></a></div>
+          <div id="menu">
+            <ul>  
+            {%for href, alt, src in menu %}
+                <li><a href="{{href}}"><img src="{{src}}" alt="{{alt}}"
+                    title="{{alt}}"></a>
+            {%endfor%}
+            </ul>
+          </div>
+        </div>
+        <div id="content">
+          {%block content%}{%endblock%}
+        </div>
+      </div>
+    </body>
+</html>
+
