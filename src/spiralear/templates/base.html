@@ -7,7 +7,7 @@
         <meta name="description" content="Ankieta.">
         <meta name="author" content="?">
         <meta name="generator" content="LangaCore">
-        <link rel="stylesheet" type="text/css" href="/media/css/reset-min.css"><!-- 2.7.0 -->
+        <link rel="stylesheet" type="text/css" href="/media/css/reset-min.css"><!-- YUI 3.2.0 -->
         <link rel="stylesheet" type="text/css" href="/media/css/base.css">
         <!--[if IE]>
         <script language="javascript" type="text/javascript" src="/media/js/excanvas.min.js"></script>
@@ -22,15 +22,18 @@
           <div id="logo"><a href="/"><img src="/media/img/logo.png"></a></div>
           <div id="menu">
             <ul>  
-            {%for href, alt, src in menu %}
-                <li><a href="{{href}}"><img src="{{src}}" alt="{{alt}}"
-                    title="{{alt}}"></a>
+            {%for href, cls, text in menu %}
+              <li><a href="{{href}}"{{cls}}>{{text}}</a>
             {%endfor%}
             </ul>
           </div>
         </div>
         <div id="content">
           {%block content%}{%endblock%}
+        </div>
+        <hr>
+        <div id="footer">
+        <p>&copy; 2010 Spiral Ear. All Rights Reserved.
         </div>
       </div>
     </body>

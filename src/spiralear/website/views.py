@@ -19,7 +19,10 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from random import randint
+
 from django.http import HttpResponseRedirect
+from django.utils.safestring import mark_safe
 
 from langacore.kit.django.helpers import render
 
@@ -30,29 +33,25 @@ EN = Language.en.id
 
 _menu = (
     {
-        PL: ['glowna/', 'Strona główna'],
-        EN: ['frontpage/', 'Spiral Ear'],
-        'img': 'home',
+        PL: ['glowna/', 'STRONA GŁÓWNA'],
+        EN: ['frontpage/', 'SPIRAL EAR'],
+        'home': True,
     },
     {
-        PL: ['produkty/', 'Produkty'],
-        EN: ['products/', 'Products'],
-        'img': 'prod',
+        PL: ['produkty/', 'PRODUKTY'],
+        EN: ['products/', 'PRODUCTS'],
     },
     {
-        PL: ['galeria/', 'Galeria'],
-        EN: ['gallery/', 'Gallery'],
-        'img': 'gal',
+        PL: ['galeria/', 'GALERIA'],
+        EN: ['gallery/', 'GALLERY'],
     },
     {
-        PL: ['zamowienia/', 'Zamówienia'],
-        EN: ['ordering/', 'Ordering'],
-        'img': 'ord',
+        PL: ['zamowienia/', 'ZAMÓWIENIA'],
+        EN: ['ordering/', 'ORDERING'],
     },
     {
-        PL: ['kontakt/', 'Kontakt'],
-        EN: ['contact/', 'Contact'],
-        'img': 'contact',
+        PL: ['kontakt/', 'KONTAKT'],
+        EN: ['contact/', 'CONTACT'],
     }
 )
 
@@ -70,18 +69,17 @@ def handler(request, page, lang):
 
     for entry in _menu:
         e = list(entry[lang])
-        status = 'inactive'
+        status = ''
         if e[0] == page + '/':
-            status = 'active'
-        if entry['img'] == 'home':
+            status = mark_safe('class="active"')
+        if 'home' in entry:
             e[0] = ''
         menu.append(('/{}/{}'.format(lang_symbol,
                         e[0]),
-                    e[1],
-                    '/media/img/menu/{}_{}_{}.png'.format(
-                        lang_symbol,
-                        entry['img'],
-                        status)))
+                    status,
+                    e[1]))
+
+    banner = randint(1, 3)
 
     return render(request, p.template, locals())
 

@@ -8,7 +8,7 @@ body {
 }
 
 #body {
-    max-width: 960px;
+    max-width: 963px;
     margin: auto;
 }
 
@@ -16,12 +16,78 @@ body {
     float: left;
     width: 129px;
     height: 78px;
+    margin-left: 18px;
 }
 
 #menu {
+    margin-top: 35px;
+    margin-left: 18px;
     float: right;
 }
 
+#menu li {
+    float: left;
+    margin-right: 5px;
+}
+
+#menu li a {
+  color: #000000;
+  height: 30px;
+  line-height: 2em;
+  float: left;
+  width: 105px;
+  display: block;
+  text-decoration: none;
+  text-align: center;
+}
+
+#menu li a.active {
+  color: #ffffff;
+  background: url(/media/img/button.png) #fff bottom left no-repeat;
+}
+
+#menu li a:hover {
+  color: #ffffff;
+  background: url(/media/img/button.png) #fff bottom left no-repeat;
+  filter:alpha(opacity=50);
+	-moz-opacity:0.5;
+	-khtml-opacity: 0.5;
+	opacity: 0.5;
+}
+
 #content {
-    clear: left;
+  clear: both;
+  padding-top: 38px;
+  padding-bottom: 80px;
+  background: url(/media/img/background.png) #fff bottom left no-repeat;
+  height: 613px;
+  width: 963px;
+  overflow: hidden;
+}
+
+#content-inside {
+  padding: 10px;
+}
+
+hr {
+  margin-top: 65px;
+  color: #949494;
+  background-color: #949494;
+  height: 2px;
+  border: 0 none;
+}
+
+#footer {
+  text-align: center;
+  font-size: 80%;
+  color: #949494;
+  margin-bottom: 20px;
+}
+
+/** frontpage **/
+
+#banner {
+  margin-left: 1px;
+  height: 292px;
+  width: 962px;
 }

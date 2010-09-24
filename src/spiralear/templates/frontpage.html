@@ -2,7 +2,8 @@
 {%load webdesign %}
 {%block title%}{{p.title}}{%endblock%}
 {%block content%}
-<h1>Yeah</h1>
-<p>This is the fucking page.
-{%lorem 10 p random%}
+<div id="banner" style="background: url(/media/img/{{lang_symbol}}_banner0{{banner}}.png) #fff bottom left no-repeat"></div>
+<div id="content-inside">
+    {%lorem 10%}
+</div>
 {%endblock%}
