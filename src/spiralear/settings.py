@@ -71,7 +71,7 @@ TEMPLATE_DEBUG = DEBUG
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': CURRENT_DIR + 'development.db',
+        'NAME': CURRENT_DIR + 'development.dbx',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
