@@ -24,16 +24,40 @@ from django.contrib import admin
 from spiralear.website import models as m
 
 
+class UrlInline(admin.TabularInline):
+    model = m.Url
+    max_num = 3
+
+
+class PageAdmin(admin.ModelAdmin):
+    def get_name(self):
+        return self.__unicode__()
+    get_name.short_description = "Strona"
+
+    list_display = (get_name,)
+    ordering = ("parent", "index")
+    inlines = [UrlInline]
+
+admin.site.register(m.Page, PageAdmin)
+
+
 class BlockInline(admin.TabularInline):
     model = m.Block
     max_num = 3
 
 
-class PageAdmin(admin.ModelAdmin):
-    search_fields = ("url", "title", "template")
-    list_display = ("url", "lang", "title", "template")
-    list_filter = ("lang",)
+class ContentAdmin(admin.ModelAdmin):
+    def url_lang(self):
+        return self.url.get_lang_display()
+    url_lang.short_description = "Język"
+
+    def url_url(self):
+        return "/" + self.url.url
+    url_url.short_description = "URL"
+
+    search_fields = ("url__url", "title", "template")
+    list_display = ("title", url_lang, url_url, "template")
     inlines = [BlockInline]
 
 
-admin.site.register(m.Page, PageAdmin)
+admin.site.register(m.Content, ContentAdmin)

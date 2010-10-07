@@ -1,9 +1,9 @@
 {%extends 'base.html'%}
-{%load webdesign %}
-{%block title%}{{p.title}}{%endblock%}
+{%block title%}{{c.title}}{%endblock%}
 {%block content%}
 <div id="banner" style="background-image: url(/media/img/{{lang_symbol}}_banner0{{banner}}.png);"></div>
 <div id="content-inside" class="frontpage">
-    {{p.block.content}}
+    {{c.block.main}}
 </div>
 {%endblock%}
+

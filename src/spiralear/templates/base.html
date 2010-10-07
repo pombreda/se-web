@@ -22,14 +22,19 @@
           <div id="logo"><a href="/"><img src="/media/img/logo.png"></a></div>
           <div id="menu">
             <ul>  
-            {%for href, cls, text in menu %}
-              <li><a href="{{href}}"{{cls}}>{{text}}</a>
+            {%for m in menu %}
+            <li><a href="{{m.url}}"{%if m.active%}
+                class="active"{%endif%}>{{m.title}}</a>
             {%endfor%}
             </ul>
           </div>
         </div>
-        <div id="content">
-          {%block content%}{%endblock%}
+        <div id="container">
+            <div id="language"><p><a
+                    href="{{alternative_lang_url}}">{{alternative_lang_desc}}</a></div>
+            <div id="content">
+            {%block content%}{%endblock%}
+            </div>
         </div>
         <hr>
         <div id="footer">

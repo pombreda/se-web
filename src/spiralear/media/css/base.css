@@ -39,7 +39,7 @@ a {
   height: 30px;
   line-height: 2em;
   float: left;
-  width: 105px;
+  width: 134px;
   display: block;
   text-align: center;
 }
@@ -58,13 +58,22 @@ a {
 	opacity: 0.5;
 }
 
-#content {
+#container {
   clear: both;
-  padding-top: 38px;
+  padding-top: 28px;
+  overflow: hidden;
+}
+
+#language {
+    font-size: x-small;
+    text-align: right;
+    margin-right: 10px;
+}
+
+#content {
   background: url(/media/img/background.png) #fff bottom left no-repeat;
   height: 613px;
   width: 963px;
-  overflow: hidden;
 }
 
 #content-inside {

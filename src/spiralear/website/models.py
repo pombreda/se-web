@@ -32,37 +32,107 @@ class Language(Choices):
     pl = _("polski")
 
 
-class BlockFinder(object):
-    def __init__(self, page):
-        self.page = page
-
-    def __getattr__(self, name):
-        try:
-            block = Block.objects.get(page=self.page, name=name)
-            return mark_safe(block.content)
-        except Block.DoesNotExist:
-            return ''
-
-
 class Page(db.Model):
-    url = db.CharField(verbose_name="URL", max_length=200)
-    lang = db.PositiveIntegerField(verbose_name="język", choices=Language())
-    title = db.CharField(verbose_name="tytuł", max_length=200)
-    template = db.CharField(verbose_name="Szablon", max_length=200)
+    index = db.PositiveIntegerField(verbose_name="indeks",
+                                    help_text="do określenia kolejności")
+    parent = db.ForeignKey("Page", verbose_name="rodzic", blank=True,
+                           null=True)
 
     class Meta:
         verbose_name = "strona"
         verbose_name_plural = "strony"
+        unique_together = ("index", "parent")
+
+    def __unicode__(self):
+        c = self._get_content((Language.en.id, Language.pl.id))
+        if not c:
+            return "Strona bez treści"
+        else:
+            return "Strona '{}' ({})".format(c.title, c.url.get_lang_display())
+
+    def get_others(self, beside):
+        return Url.objects.filter(page=self).exclude(lang=beside)
+
+    def _get_content(self, langs):
+        try:
+            return Content.objects.get(url__lang=langs[0], url__page=self)
+        except Content.DoesNotExist:
+            langs = langs[1:]
+            return self._get_content(langs) if langs else None
+
+
+class Url(db.Model):
+    page = db.ForeignKey(Page, verbose_name="strona")
+    lang = db.PositiveIntegerField(verbose_name="język", choices=Language())
+    url = db.CharField(verbose_name="URL", max_length=200, blank=True)
+
+    class Meta:
+        verbose_name = "Link"
+        verbose_name_plural = "Linki"
+        unique_together = ("page", "lang")
+
+    def __unicode__(self):
+        return "Link /{} ({})".format(self.url, self.get_lang_display())
+
+    def full_link(self):
+        return "/{}/{}".format(self.lang_description(),
+                               self.with_trailing_slash(if_nonempty=True))
+
+
+    def with_trailing_slash(self, if_nonempty=False):
+        if not if_nonempty or self.url:
+            return self.url + "/"
+        else:
+            return self.url
+
+    def lang_description(self, long=False):
+        if self.lang == Language.en.id:
+            return 'English version' if long else 'en'
+        elif self.lang == Language.pl.id:
+            return 'Wersja polska' if long else 'pl'
+        else:
+            return ''
+
+class Content(db.Model):
+    url = db.ForeignKey(Url, verbose_name="URL", unique=True)
+    title = db.CharField(verbose_name="tytuł", max_length=200)
+    desc = db.TextField(verbose_name="Długi opis",
+                        help_text="Do wyników w Google")
+    template = db.CharField(verbose_name="Szablon", max_length=200)
+
+    class Meta:
+        verbose_name = "treść"
+        verbose_name_plural = "treści"
+
+    def __unicode__(self):
+        return "Treść strony '{}' ({})".format(self.title,
+                                               self.url.get_lang_display())
 
     def block(self):
         return BlockFinder(self)
 
 
 class Block(db.Model):
-    page = db.ForeignKey(Page, verbose_name="strona")
+    content = db.ForeignKey(Content, verbose_name="treść")
     name = db.CharField(verbose_name="nazwa bloku", max_length=200)
-    content = db.TextField(verbose_name="treść")
+    text = db.TextField(verbose_name="tekst bloku")
 
     class Meta:
         verbose_name = "blok"
         verbose_name_plural = "bloki"
+
+    def __unicode__(self):
+        content = self.content
+        return "Blok '{}' strony '{}' ({})".format(self.name,
+                    content.title, content.url.get_lang_display())
+
+class BlockFinder(object):
+    def __init__(self, content):
+        self.content = content
+
+    def __getattr__(self, name):
+        try:
+            block = Block.objects.get(content=self.content, name=name)
+            return mark_safe(block.text)
+        except Block.DoesNotExist:
+            return ''

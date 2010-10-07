@@ -26,62 +26,76 @@ from django.utils.safestring import mark_safe
 
 from langacore.kit.django.helpers import render
 
-from spiralear.website.models import Page, Block, Language
+from spiralear.website.models import Page, Url, Content, Block
+from spiralear.website.models import Language as Lang
 
-PL = Language.pl.id
-EN = Language.en.id
+EN = Lang.en.id
+PL = Lang.pl.id
 
-_menu = (
-    {
-        PL: ['glowna/', 'SPIRAL EAR'],
-        EN: ['frontpage/', 'SPIRAL EAR'],
-        'home': True,
-    },
-    {
-        PL: ['produkty/', 'PRODUKTY'],
-        EN: ['products/', 'PRODUCTS'],
-    },
-    {
-        PL: ['galeria/', 'GALERIA'],
-        EN: ['gallery/', 'GALLERY'],
-    },
-    {
-        PL: ['zamowienia/', 'ZAMÓWIENIA'],
-        EN: ['ordering/', 'ORDERING'],
-    },
-    {
-        PL: ['kontakt/', 'KONTAKT'],
-        EN: ['contact/', 'CONTACT'],
-    }
-)
+_lang_mapping = {
+        'en': EN,
+        'pl': PL,
+}
 
-def handler(request, page, lang):
-    try:
-        p = Page.objects.get(url=page, lang=lang)
-    except Page.DoesNotExist:
-        #redirect(request)
-        p = Page(url=page, lang=lang, title=page, template=page + '.html')
-        p.save()
-
+def _generate_menu(lang, lang_symbol, parent=None):
     menu = []
+    for page in Page.objects.filter(parent=parent).order_by("index"):
+        try:
+            url = Url.objects.get(page=page, lang=lang)
+            content = Content.objects.get(url=url)
 
-    lang_symbol = 'pl' if lang == PL else 'en' if lang == EN else ''
+            # ugly hack
+            if url.url:
+                title = content.title.upper()
+            else:
+                title = "SPIRAL EAR"
 
-    for entry in _menu:
-        e = list(entry[lang])
-        status = ''
-        if e[0] == page + '/':
-            status = mark_safe('class="active"')
-        if 'home' in entry:
-            e[0] = ''
-        menu.append(('/{}/{}'.format(lang_symbol,
-                        e[0]),
-                    status,
-                    e[1]))
+            children = _generate_menu(lang, lang_symbol, page)
+            menu.append({
+                'title': title,
+                'url': url.full_link(),
+                'active': False, # will be populated after the fact
+                'children': children
+            })
+        except (Url.DoesNotExist, Content.DoesNotExist):
+            continue
+    return menu
+
+def handler(request, url, lang):
+    url = url.lower()
+    lang_symbol = lang.lower()
+    lang = _get_lang(lang)
+    try:
+        u = Url.objects.get(url=url, lang=lang)
+        c = Content.objects.get(url=u)
+    except (Url.DoesNotExist, Content.DoesNotExist):
+        redirect(request)
+
+    menu = _generate_menu(lang, lang_symbol)
+    try:
+        other = u.page.get_others(lang)[0]
+        alternative_lang_url = other.full_link()
+        alternative_lang_desc = other.lang_description(long=True)
+    except Url.DoesNotExist:
+        pass
 
     banner = randint(1, 3)
 
-    return render(request, p.template, locals())
+    return render(request, c.template, locals())
+
+def _get_lang(language):
+    if language in _lang_mapping:
+        return _lang_mapping[language]
+    else:
+        return None
+
+def _get_lang_symbol(language, alt=False):
+    if language == PL:
+        return 'pl' if not alt else 'en'
+    elif language == EN:
+        return 'en' if not alt else 'pl'
+    else:
+        return ''
 
 def redirect(request):
     return HttpResponseRedirect('/en/')
