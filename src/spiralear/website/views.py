@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 from collections import defaultdict
 from random import randint
 
+from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.template import Template, RequestContext
 from django.utils.safestring import mark_safe
@@ -80,8 +81,9 @@ def _mark_active(menu, url):
 
 
 class BlockRenderer(object):
-    def __init__(self, request):
+    def __init__(self, request, context=None):
         self.request = request
+        self.context = context if context else {}
         self.blocks = {}
 
     def add(self, block):
@@ -95,8 +97,9 @@ class BlockRenderer(object):
         # a multi-dict
         for k in r.GET:
             get[k] = r.GET[k]
+        self.context['get'] = get
         return mark_safe(self.blocks[key].render(RequestContext(r,
-                                                 {'get': get})))
+                                                 self.context)))
 
 
 def handler(request, url, lang):
@@ -118,8 +121,7 @@ def handler(request, url, lang):
     except Url.DoesNotExist:
         pass
 
-    banner = randint(1, 3)
-    c.block = BlockRenderer(request)
+    c.block = BlockRenderer(request, {'domain': settings.DOMAIN})
     for b in Block.objects.filter(content=c):
         c.block.add(b)
 

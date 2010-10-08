@@ -33,6 +33,7 @@ class PageAdmin(admin.ModelAdmin):
     def get_name(self):
         return self.__unicode__()
     get_name.short_description = "Strona"
+    get_name.admin_order_field = "parent"
 
     list_display = (get_name,)
     inlines = [UrlInline]

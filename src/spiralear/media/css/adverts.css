@@ -32,6 +32,7 @@
 	background: url(/media/img/bar_advert_center.png) repeat-x;
 	padding-top: 4px;
 	height: 21px;
+	font-size:11px;
 }
 
 .ad-control .right {
@@ -44,7 +45,6 @@
 
 .ad-control span {
 	font-family:Helvetica Neue,Helvetica,Tahoma;
-	font-size:11px;
 	padding: 0px 3px; 
 }
 

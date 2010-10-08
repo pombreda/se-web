@@ -42,7 +42,9 @@ class Page(db.Model):
         verbose_name = "strona"
         verbose_name_plural = "strony"
         unique_together = ("index", "parent")
-        ordering = ("parent", "index")
+        ordering = ("index",) # Stupid, cannot use 'parent' because it causes
+                              # "Infinite loop caused by ordering.". The
+                              # hierarchy used is acyclical so I wonder...
 
     def __unicode__(self):
         c = self._get_content((Language.en.id, Language.pl.id))
