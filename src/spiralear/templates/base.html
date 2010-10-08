@@ -24,8 +24,17 @@
           <div id="menu">
             <ul>  
             {%for m in menu %}
-            <li><a href="{{m.url}}"{%if m.active%}
-                class="active"{%endif%}>{{m.title}}</a>
+            <li class="main"><a href="{{m.url}}" class="main{%if m.active%} active{%endif%}">
+                {{m.title}}</a>
+                {%if m.children%}
+                <ul>
+                    {%for mm in m.children%}
+                    <li><a href="{{mm.url}}"{%if mm.active%}
+                        class="active"{%endif%}>{{mm.title}}</a>
+                    {%endfor%}
+                </ul>
+                {%endif%}
+                </li>
             {%endfor%}
             </ul>
           </div>

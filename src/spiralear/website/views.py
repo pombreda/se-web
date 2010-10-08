@@ -49,7 +49,7 @@ def _generate_menu(lang, lang_symbol, parent=None):
 
             # ugly hack
             if url.url:
-                title = content.title.upper()
+                title = content.title
             else:
                 title = "SPIRAL EAR"
 

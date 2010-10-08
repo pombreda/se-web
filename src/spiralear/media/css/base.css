@@ -30,32 +30,75 @@ a {
     float: right;
 }
 
-#menu li {
+#menu li.main {
     float: left;
     margin-right: 5px;
+    position: relative;
+    z-index: 3;
 }
 
-#menu li a {
+#menu li.main a.main {
   height: 30px;
   line-height: 2em;
   float: left;
   width: 134px;
   display: block;
   text-align: center;
+  text-transform: uppercase;
 }
 
-#menu li a.active {
+#menu li.main a.main.active {
   color: #ffffff;
   background: url(/media/img/button.png) #fff bottom left no-repeat;
 }
 
-#menu li a:hover {
+#menu li.main a.main:hover {
   color: #ffffff;
   background: url(/media/img/button.png) #fff bottom left no-repeat;
   filter:alpha(opacity=50);
 	-moz-opacity:0.5;
 	-khtml-opacity: 0.5;
 	opacity: 0.5;
+}
+
+#menu ul ul {
+	position: absolute;
+	left: 0;
+	top: 30px;
+	display: none;
+	z-index: 4;
+	background: url(/media/img/subbutton_bottom.png) no-repeat left bottom;
+	padding-bottom: 15px;
+	margin: 0;
+	width: 134px;
+}
+
+#menu ul ul li {
+	display: block;
+	width: 129px;
+	background: repeat url(/media/img/subbutton_middle.png);
+    padding-left: 5px;
+    padding-top: 10px;
+}
+
+#menu ul ul a {
+	border-right-style: none;
+    color: #ffffff;
+}
+
+#menu ul ul a:hover {
+    filter:alpha(opacity=50);
+	-moz-opacity:0.5;
+	-khtml-opacity: 0.5;
+	opacity: 0.5;
+	-background: repeat url(images/sub_menu_bg.png);
+}
+
+#menu ul ul #current{
+}
+
+div#menu ul li:hover ul, div#menu ul ul li:hover ul, div#menu ul ul ul li:hover ul, div#menu ul ul ul ul li:hover ul, div#menu ul ul ul ul ul li:hover ul{
+display:block;
 }
 
 #container {
