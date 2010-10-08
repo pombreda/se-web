@@ -35,7 +35,6 @@ class PageAdmin(admin.ModelAdmin):
     get_name.short_description = "Strona"
 
     list_display = (get_name,)
-    ordering = ("parent", "index")
     inlines = [UrlInline]
 
 admin.site.register(m.Page, PageAdmin)
@@ -50,10 +49,12 @@ class ContentAdmin(admin.ModelAdmin):
     def url_lang(self):
         return self.url.get_lang_display()
     url_lang.short_description = "Język"
+    url_lang.admin_order_field = "url__lang"
 
     def url_url(self):
         return "/" + self.url.url
     url_url.short_description = "URL"
+    url_url.admin_order_field = "url__url"
 
     search_fields = ("url__url", "title", "template")
     list_display = ("title", url_lang, url_url, "template")

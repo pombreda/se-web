@@ -42,6 +42,7 @@ class Page(db.Model):
         verbose_name = "strona"
         verbose_name_plural = "strony"
         unique_together = ("index", "parent")
+        ordering = ("parent", "index")
 
     def __unicode__(self):
         c = self._get_content((Language.en.id, Language.pl.id))
@@ -103,6 +104,7 @@ class Content(db.Model):
     class Meta:
         verbose_name = "treść"
         verbose_name_plural = "treści"
+        ordering = ("url__lang", "url__url", "title")
 
     def __unicode__(self):
         return "Treść strony '{}' ({})".format(self.title,
