@@ -2,8 +2,12 @@
 {%block title%}{{c.title}}{%endblock%}
 {%block content%}
 <div id="bar"><p>{{c.title}}</div>
-<div id="content-inside" class="gallery">
-    {{c.block.list}}
+<div id="content-inside" class="products">
+<div id="left">
     {{c.block.main}}
+</div>
+<div id="right">
+    {{c.block.photos}}
+</div>
 </div>
 {%endblock%}

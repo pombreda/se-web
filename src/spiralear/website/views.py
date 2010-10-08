@@ -19,9 +19,11 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from collections import defaultdict
 from random import randint
 
 from django.http import HttpResponseRedirect
+from django.template import Template, RequestContext
 from django.utils.safestring import mark_safe
 
 from langacore.kit.django.helpers import render
@@ -83,10 +85,18 @@ class BlockRenderer(object):
         self.blocks = {}
 
     def add(self, block):
-        self.blocks[block.name] = block.text
+        text = "{%load validation%}\n" + block.text
+        self.blocks[block.name] = Template(text)
 
     def __getitem__(self, key):
-        return mark_safe(self.blocks[key])
+        r = self.request
+        get = defaultdict(lambda: '')
+        # cannot use dict.update() because request.GET is really
+        # a multi-dict
+        for k in r.GET:
+            get[k] = r.GET[k]
+        return mark_safe(self.blocks[key].render(RequestContext(r,
+                                                 {'get': get})))
 
 
 def handler(request, url, lang):

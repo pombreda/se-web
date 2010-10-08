@@ -27,16 +27,16 @@ from django.utils.safestring import mark_safe
 register = template.Library()
 
 @register.filter
-def GET(value, arg):
-    """Usage: {{string|get:"block variable regex default"}}
+def check(value, arg):
+    """Usage: {{string|check:"/regex/default"}}
     
-    Fills encountered {{variable}} instances in the given string
-    with GET arguments as long as they match the given regular
-    expression."""
+    If the string doesn't match the regex, switches to the default."""
 
-    block, variable, regex, default = arg.split(" ", 3)
-    if variable in value.request.GET:
-        var = value.request.GET[variable]
-        if re.match(regex, var):
-            default = var
-    return mark_safe(value[block].replace("{{" + variable + "}}", default))
+    _, regex, default = arg.split(arg[0], 2)
+    if value and re.match(regex, value):
+        default = value 
+    return default
+
+@register.filter
+def strip(value):
+    return unicode(value).strip()
