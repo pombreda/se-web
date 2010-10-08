@@ -111,6 +111,20 @@ hr {
   margin-bottom: 1em;
 }
 
+/** gallery **/
+
+#content-inside.gallery img.thumb {
+    width: 52px;
+    height: 52px;
+    margin-bottom: 14px;
+    margin-top: 4px;
+}
+
+#content-inside.gallery {
+  text-align: center;
+}
+
+
 /** contact **/
 
 #bar {

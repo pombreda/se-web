@@ -37,6 +37,7 @@ _lang_mapping = {
         'pl': PL,
 }
 
+
 def _generate_menu(lang, lang_symbol, parent=None):
     menu = []
     for page in Page.objects.filter(parent=parent).order_by("index"):
@@ -54,12 +55,39 @@ def _generate_menu(lang, lang_symbol, parent=None):
             menu.append({
                 'title': title,
                 'url': url.full_link(),
-                'active': False, # will be populated after the fact
+                'active': False, # will be marked after the fact
                 'children': children
             })
         except (Url.DoesNotExist, Content.DoesNotExist):
             continue
     return menu
+
+
+def _mark_active(menu, url):
+    full_link = url.full_link()
+    is_active = True
+    for entry in menu:
+        if entry['url'] == full_link:
+            entry['active'] = True
+            break
+        else:
+            entry['active'] = _mark_active(entry['children'], url)
+    else:
+        is_active = False
+    return is_active
+
+
+class BlockRenderer(object):
+    def __init__(self, request):
+        self.request = request
+        self.blocks = {}
+
+    def add(self, block):
+        self.blocks[block.name] = block.text
+
+    def __getitem__(self, key):
+        return mark_safe(self.blocks[key])
+
 
 def handler(request, url, lang):
     url = url.lower()
@@ -72,6 +100,7 @@ def handler(request, url, lang):
         redirect(request)
 
     menu = _generate_menu(lang, lang_symbol)
+    _mark_active(menu, u)
     try:
         other = u.page.get_others(lang)[0]
         alternative_lang_url = other.full_link()
@@ -80,14 +109,19 @@ def handler(request, url, lang):
         pass
 
     banner = randint(1, 3)
+    c.block = BlockRenderer(request)
+    for b in Block.objects.filter(content=c):
+        c.block.add(b)
 
     return render(request, c.template, locals())
+
 
 def _get_lang(language):
     if language in _lang_mapping:
         return _lang_mapping[language]
     else:
         return None
+
 
 def _get_lang_symbol(language, alt=False):
     if language == PL:
@@ -96,6 +130,7 @@ def _get_lang_symbol(language, alt=False):
         return 'en' if not alt else 'pl'
     else:
         return ''
+
 
 def redirect(request):
     return HttpResponseRedirect('/en/')

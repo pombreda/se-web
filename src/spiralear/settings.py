@@ -67,6 +67,7 @@ INSTALLED_APPS = (
 SECRET_KEY = '-^kuq@#gnr9u8=@v7m=q98apqo2w&j87*gz0h(t#xut_&6spgl'
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+TEMPLATE_STRING_IF_INVALID = '[INVALID %s]'
 
 DATABASES = {
     'default': {

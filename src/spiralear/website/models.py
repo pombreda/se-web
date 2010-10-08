@@ -108,10 +108,6 @@ class Content(db.Model):
         return "Treść strony '{}' ({})".format(self.title,
                                                self.url.get_lang_display())
 
-    def block(self):
-        return BlockFinder(self)
-
-
 class Block(db.Model):
     content = db.ForeignKey(Content, verbose_name="treść")
     name = db.CharField(verbose_name="nazwa bloku", max_length=200)
@@ -125,14 +121,3 @@ class Block(db.Model):
         content = self.content
         return "Blok '{}' strony '{}' ({})".format(self.name,
                     content.title, content.url.get_lang_display())
-
-class BlockFinder(object):
-    def __init__(self, content):
-        self.content = content
-
-    def __getattr__(self, name):
-        try:
-            block = Block.objects.get(content=self.content, name=name)
-            return mark_safe(block.text)
-        except Block.DoesNotExist:
-            return ''
