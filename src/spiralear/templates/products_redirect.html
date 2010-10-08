@@ -3,13 +3,13 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{%block title%}{%endblock%} - SpiralEar.com</title>
+        <title>{{c.block.redirect_msg}} - SpiralEar.com</title>
         <meta name="keywords" content="spiralear">
         <meta name="description" content="{{c.desc}}">
         <meta name="author" content="Łukasz Langa, Krzysztof Baran, Grzegorz
         Baran">
         <meta name="generator" content="Django 1.2">
-        <meta http-equiv="refresh" content="0;{{c.block.redirect_to|strip}}"</meta>
+        <meta http-equiv="refresh" content="0;url={{c.block.redirect_to|strip}}"</meta>
         <link rel="stylesheet" type="text/css" href="/media/css/reset-min.css"><!-- YUI 3.2.0 -->
     <style type="text/css">{%block css%}{%endblock%}</style>
     </head>
