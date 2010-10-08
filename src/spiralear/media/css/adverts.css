@@ -1,0 +1,65 @@
+#banner {
+	position: relative;
+}
+
+#banner a {
+	display: none;
+	position: absolute;
+}
+
+#banner a:first-child {
+	display: block;
+}
+
+.ad-control-left {
+	background: url(/media/img/bar_advert_left.png) no-repeat;
+	padding-left: 11px;
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+}
+
+.ad-control-right {
+	background: url(/media/img/bar_advert_right.png) no-repeat top right;
+	padding-right: 11px;
+}
+
+.ad-control-left, .ad-control-right {
+	height: 25px;
+}
+
+.ad-control {
+	background: url(/media/img/bar_advert_center.png) repeat-x;
+	padding-top: 4px;
+	height: 21px;
+}
+
+.ad-control .right {
+	padding-left: 3px;
+}
+
+.ad-control .left {
+	padding-right: 3px;
+}
+
+.ad-control span {
+	font-family:Helvetica Neue,Helvetica,Tahoma;
+	font-size:11px;
+	padding: 0px 3px; 
+}
+
+.ad-control span.selected {
+	font-weight: bold;
+	font-style: normal;
+	color: #FFFFFF;
+	cursor: default;
+	background: transparent;
+	float: none;
+	clear: none;
+	position: static;
+}
+
+.ad-control * {
+	cursor: pointer;
+	vertical-align: middle;
+}

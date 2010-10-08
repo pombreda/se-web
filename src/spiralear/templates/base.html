@@ -10,10 +10,12 @@
         <meta name="generator" content="Django 1.2">
         <link rel="stylesheet" type="text/css" href="/media/css/reset-min.css"><!-- YUI 3.2.0 -->
         <link rel="stylesheet" type="text/css" href="/media/css/base.css">
+        <link rel="stylesheet" type="text/css" href="/media/css/adverts.css">
         <!--[if IE]>
         <script language="javascript" type="text/javascript" src="/media/js/excanvas.min.js"></script>
         <![endif]-->
 		<script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>
+        <script type="text/javascript" src="/media/js/adverts.js"></script>
 		<script type="text/javascript">{%block js%}{%endblock%}</script>
     <style type="text/css">{%block css%}{%endblock%}</style>
     </head>
@@ -51,6 +53,12 @@
         <p>&copy; 2010 Spiral Ear. All Rights Reserved.
         </div>
       </div>
+      <script type="text/javascript">
+        $(document).ready(function() {
+            $("#menu a[href$=se3-reference\\/]").text("SE 3-way Reference");
+            $("#menu a[href$=se2-pro\\/]").text("SE 2-way Pro");
+        });
+      </script>
     </body>
 </html>
 
