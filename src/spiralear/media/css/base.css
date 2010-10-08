@@ -30,6 +30,14 @@ a {
     float: right;
 }
 
+#menu li.main:hover {
+  background: url(/media/img/subbutton_top.png) #fff top left no-repeat;
+}
+
+#menu li.main:hover a {
+  color: #ffffff;
+}
+
 #menu li.main {
     float: left;
     margin-right: 5px;
@@ -49,16 +57,12 @@ a {
 
 #menu li.main a.main.active {
   color: #ffffff;
-  background: url(/media/img/button.png) #fff bottom left no-repeat;
+  background: url(/media/img/button.png) transparent bottom left no-repeat;
 }
 
 #menu li.main a.main:hover {
   color: #ffffff;
-  background: url(/media/img/button.png) #fff bottom left no-repeat;
-  filter:alpha(opacity=50);
-	-moz-opacity:0.5;
-	-khtml-opacity: 0.5;
-	opacity: 0.5;
+  background: url(/media/img/button_gray.png) #fff bottom left no-repeat;
 }
 
 #menu ul ul {
