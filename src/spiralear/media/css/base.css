@@ -231,6 +231,22 @@ hr {
     vertical-align: bottom;
 }
 
+/** text - more info **/
+
+#content-inside.text {
+  padding: 50px;
+}
+
+#content-inside.text p {
+  margin-bottom: 1em;
+  text-align: justify;
+}
+
+#content-inside.text img {
+  float: right;
+  padding-left: 10px;
+}
+
 /** gallery **/
 
 #content-inside.gallery img.thumb {
