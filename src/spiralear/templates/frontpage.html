@@ -2,15 +2,7 @@
 {%block title%}{{c.title}}{%endblock%}
 {%block content%}
 <div id="banner">
-    <a href="/{{lang_symbol}}/products/se3-reference/">
-        <img src="/media/img/{{lang_symbol}}_banner01.png">
-    </a>
-    <a href="/{{lang_symbol}}/products/se2-pro/">
-        <img src="/media/img/{{lang_symbol}}_banner02.png">
-    </a>
-    <a href="/{{lang_symbol}}/products/se-custom/">
-        <img src="/media/img/{{lang_symbol}}_banner03.png">
-    </a>
+    {{c.block.banners}}
 </div>
 <div id="content-inside" class="frontpage">
     {{c.block.main}}
