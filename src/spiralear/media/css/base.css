@@ -116,7 +116,7 @@ div#menu ul ul ul li:hover ul {
 
 #content {
   background: url(/media/img/background.png) #fff bottom left no-repeat;
-  height: 613px;
+  min-height: 613px;
   width: 963px;
 }
 
@@ -209,7 +209,7 @@ hr {
 
 #content-inside.products #one,
 #content-inside.products #two {
-    margin-bottom: 10px;
+    margin-bottom: 4px;
 }
 
 #content-inside.products #three {
@@ -245,6 +245,16 @@ hr {
 #content-inside.text img {
   float: right;
   padding-left: 10px;
+}
+
+#content-inside.text td {
+  vertical-align: top;
+  padding-bottom: 4em;
+}
+
+#content-inside.text h2 {
+  font-weight: bold;
+  padding-top: 1.5em;
 }
 
 /** gallery **/
