@@ -103,8 +103,6 @@ div#menu ul ul ul li:hover ul {
 }
 
 #container {
-  clear: both;
-  padding-top: 28px;
   overflow: hidden;
 }
 
@@ -118,6 +116,9 @@ div#menu ul ul ul li:hover ul {
   background: url(/media/img/background.png) #fff bottom left no-repeat;
   min-height: 613px;
   width: 963px;
+  padding-bottom: 4px;
+  padding-top: 28px;
+  clear: both;
 }
 
 #content-inside {
@@ -234,6 +235,7 @@ hr {
 /** text - more info **/
 
 #content-inside.text {
+  background: url(/media/img/background_middle.png) #fff top left repeat-y;
   padding: 50px;
 }
 
@@ -262,8 +264,12 @@ hr {
 #content-inside.gallery img.thumb {
     width: 52px;
     height: 52px;
-    margin-bottom: 14px;
+    margin-bottom: -3px;
     margin-top: 4px;
+}
+
+#content-inside.gallery img.gal {
+  margin-top: 14px;
 }
 
 #content-inside.gallery {

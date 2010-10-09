@@ -21,6 +21,14 @@
     </head>
     <body>
       <div id="body">
+          <div id="language"><p>
+              {%for link, desc in other%}
+              <a href="{{link}}">{{desc}}</a> 
+                {%if not forloop.last %}
+                |
+                {%endif%}
+              {%endfor%}
+        </div>
         <div id="header">
           <div id="logo"><a href="/"><img src="/media/img/logo.png"></a></div>
           <div id="menu">
@@ -41,12 +49,10 @@
             </ul>
           </div>
         </div>
-        <div id="container">
-            <div id="language"><p><a
-                    href="{{alternative_lang_url}}">{{alternative_lang_desc}}</a></div>
-            <div id="content">
-            {%block content%}{%endblock%}
-            </div>
+        <div id="content">
+          <div id="container">
+              {%block content%}{%endblock%}
+          </div>
         </div>
         <hr>
         <div id="footer">

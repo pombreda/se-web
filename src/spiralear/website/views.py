@@ -114,12 +114,8 @@ def handler(request, url, lang):
 
     menu = _generate_menu(lang, lang_symbol)
     _mark_active(menu, u)
-    try:
-        other = u.page.get_others(lang)[0]
-        alternative_lang_url = other.full_link()
-        alternative_lang_desc = other.lang_description(long=True)
-    except Url.DoesNotExist:
-        pass
+    other = [(other.full_link(), other.lang_description(long=True))
+                for other in u.page.get_others()]
 
     c.block = BlockRenderer(request, {'domain': settings.DOMAIN})
     for b in Block.objects.filter(content=c):

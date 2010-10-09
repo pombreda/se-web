@@ -53,8 +53,8 @@ class Page(db.Model):
         else:
             return "Strona '{}' ({})".format(c.title, c.url.get_lang_display())
 
-    def get_others(self, beside):
-        return Url.objects.filter(page=self).exclude(lang=beside)
+    def get_others(self):
+        return Url.objects.filter(page=self)
 
     def _get_content(self, langs):
         try:
@@ -90,9 +90,9 @@ class Url(db.Model):
 
     def lang_description(self, long=False):
         if self.lang == Language.en.id:
-            return 'English version' if long else 'en'
+            return 'english' if long else 'en'
         elif self.lang == Language.pl.id:
-            return 'Wersja polska' if long else 'pl'
+            return 'polish' if long else 'pl'
         else:
             return ''
 
