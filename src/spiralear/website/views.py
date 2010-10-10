@@ -40,6 +40,55 @@ _lang_mapping = {
         'pl': PL,
 }
 
+_lang_reverse = {
+        EN: 'en',
+        PL: 'pl',
+}
+
+
+def handler(request, url, lang):
+    url = url.lower()
+    lang_symbol = lang.lower()
+    lang = _lang_mapping.get(lang)
+    try:
+        u = Url.objects.get(url=url, lang=lang)
+        c = Content.objects.get(url=u)
+    except (Url.DoesNotExist, Content.DoesNotExist):
+        redirect(request)
+
+    menu = _generate_menu(lang, lang_symbol)
+    _mark_active(menu, u)
+    other = [(other.full_link(), other.lang_description(long=True))
+                for other in u.page.get_others()]
+
+    c.block = BlockRenderer(request, {'domain': settings.DOMAIN})
+    for b in Block.objects.filter(content=c):
+        c.block.add(b)
+
+    return render(request, c.template, locals())
+
+
+def redirect(request):
+    return HttpResponseRedirect('/en/')
+
+
+def sitemap(request):
+    urls = ['http://{}/{}/{}'.format(settings.DOMAIN,
+                _lang_reverse.get(url.lang),
+                ("{}/".format(url.url)) if url.url else '')
+            for url in Url.objects.all()]
+    return render(request, "sitemap.xml", locals(),
+                  mimetype='application/xml')
+
+
+def _get_lang_symbol(language, alt=False):
+    if language == PL:
+        return 'pl' if not alt else 'en'
+    elif language == EN:
+        return 'en' if not alt else 'pl'
+    else:
+        return ''
+
 
 def _generate_menu(lang, lang_symbol, parent=None):
     menu = []
@@ -100,45 +149,3 @@ class BlockRenderer(object):
         self.context['get'] = get
         return mark_safe(self.blocks[key].render(RequestContext(r,
                                                  self.context)))
-
-
-def handler(request, url, lang):
-    url = url.lower()
-    lang_symbol = lang.lower()
-    lang = _get_lang(lang)
-    try:
-        u = Url.objects.get(url=url, lang=lang)
-        c = Content.objects.get(url=u)
-    except (Url.DoesNotExist, Content.DoesNotExist):
-        redirect(request)
-
-    menu = _generate_menu(lang, lang_symbol)
-    _mark_active(menu, u)
-    other = [(other.full_link(), other.lang_description(long=True))
-                for other in u.page.get_others()]
-
-    c.block = BlockRenderer(request, {'domain': settings.DOMAIN})
-    for b in Block.objects.filter(content=c):
-        c.block.add(b)
-
-    return render(request, c.template, locals())
-
-
-def _get_lang(language):
-    if language in _lang_mapping:
-        return _lang_mapping[language]
-    else:
-        return None
-
-
-def _get_lang_symbol(language, alt=False):
-    if language == PL:
-        return 'pl' if not alt else 'en'
-    elif language == EN:
-        return 'en' if not alt else 'pl'
-    else:
-        return ''
-
-
-def redirect(request):
-    return HttpResponseRedirect('/en/')
