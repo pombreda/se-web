@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: http://www.spiralear.com/sitemap.xml

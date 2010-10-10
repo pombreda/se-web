@@ -81,6 +81,11 @@ def sitemap(request):
                   mimetype='application/xml')
 
 
+def robots(request):
+    return render(request, "robots.txt", locals(),
+                  mimetype='text/plain')
+
+
 def _get_lang_symbol(language, alt=False):
     if language == PL:
         return 'pl' if not alt else 'en'

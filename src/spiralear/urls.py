@@ -5,6 +5,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Example:
+    (r'^robots.txt$', 'spiralear.website.views.robots'),
     (r'^sitemap.xml$', 'spiralear.website.views.sitemap'),
     (r'^admin/', include(admin.site.urls)),
     (r'^media/(?P<path>.*)$', 'django.views.static.serve',
