@@ -117,7 +117,7 @@ div#menu ul ul ul li:hover ul {
   min-height: 613px;
   width: 963px;
   padding-bottom: 4px;
-  padding-top: 28px;
+  padding-top: 23px;
   clear: both;
 }
 
@@ -145,6 +145,7 @@ hr {
 #banner {
   height: 292px;
   width: 962px;
+  margin-top: 5px;
 }
 
 #content-inside.frontpage {
@@ -295,7 +296,7 @@ hr {
 #content-inside.contact {
   text-align: center;
   line-height: 1.5em;
-  margin-top: 200px;
+  margin-top: 180px;
   font-size: 1.15em;
 }
 
