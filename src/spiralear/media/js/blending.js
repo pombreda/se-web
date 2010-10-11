@@ -57,11 +57,11 @@
     }
     $("#banner").append('<div class="ad-control-left"><div class="ad-control-right"><div class="ad-control"></div></div></div>');
     var adControl= $(".ad-control");
-    adControl.append(arrow("left", '/media/img/advert_arrow_left.png'));
+    adControl.append(arrow("left", '/media/img/blend_arrow_left.png'));
     $("#banner a").each(function (i) {
       adControl.append('<span>' + (i + 1) + '</span>');
     });
-    adControl.append(arrow("right", '/media/img/advert_arrow_right.png'));
+    adControl.append(arrow("right", '/media/img/blend_arrow_right.png'));
     $(".ad-control span:eq(0)").addClass("selected");
     $(".ad-control img").click(function () {
       switchNow($(this).hasClass("left") ? -1 : 1);

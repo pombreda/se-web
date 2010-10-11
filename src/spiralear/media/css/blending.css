@@ -12,7 +12,7 @@
 }
 
 .ad-control-left {
-	background: url(/media/img/bar_advert_left.png) no-repeat;
+	background: url(/media/img/bar_blend_left.png) no-repeat;
 	padding-left: 11px;
 	position: absolute;
 	bottom: 10px;
@@ -20,7 +20,7 @@
 }
 
 .ad-control-right {
-	background: url(/media/img/bar_advert_right.png) no-repeat top right;
+	background: url(/media/img/bar_blend_right.png) no-repeat top right;
 	padding-right: 11px;
 }
 
@@ -29,7 +29,7 @@
 }
 
 .ad-control {
-	background: url(/media/img/bar_advert_center.png) repeat-x;
+	background: url(/media/img/bar_blend_center.png) repeat-x;
 	padding-top: 4px;
 	height: 21px;
 	font-size:11px;
