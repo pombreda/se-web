@@ -19,6 +19,8 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from datetime import datetime, timedelta
+
 from django.db import models as db
 from django.utils.safestring import mark_safe
 
@@ -125,3 +127,30 @@ class Block(db.Model):
         content = self.content
         return "Blok '{}' strony '{}' ({})".format(self.name,
                     content.title, content.url.get_lang_display())
+
+def just_now():
+    return datetime.now()
+
+def next_month():
+    return datetime.now() + timedelta(days=30)
+
+
+class Newsfeed(db.Model):
+    lang = db.PositiveIntegerField(verbose_name="język", choices=Language())
+    date_from = db.DateTimeField(verbose_name="wyświetlane od",
+            default=just_now)
+    date_to = db.DateTimeField(verbose_name="wyświetlane do",
+            default=next_month)
+    content = db.TextField(verbose_name="treść")
+    url = db.URLField(verbose_name="URL")
+
+    class Meta:
+        verbose_name = "newsfeed"
+        verbose_name_plural = "wpisy newsfeed"
+        ordering = ("date_from", "date_to", "content")
+
+    def __unicode__(self):
+        return "Newsfeed {} - {}".format(self.date_from, self.date_to)
+
+    def save(self, *args, **kwargs):
+        super(Newsfeed, self).save(*args, **kwargs)

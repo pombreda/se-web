@@ -20,6 +20,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from collections import defaultdict
+from datetime import datetime
 from random import randint
 
 from django.conf import settings
@@ -29,7 +30,7 @@ from django.utils.safestring import mark_safe
 
 from langacore.kit.django.helpers import render
 
-from spiralear.website.models import Page, Url, Content, Block
+from spiralear.website.models import Page, Url, Content, Block, Newsfeed
 from spiralear.website.models import Language as Lang
 
 EN = Lang.en.id
@@ -65,6 +66,18 @@ def handler(request, url, lang):
     for b in Block.objects.filter(content=c):
         c.block.add(b)
 
+    feed_url = "http://spiralear.com/"
+    feed_content = ""
+    try:
+        f = Newsfeed.objects.filter(date_from__lte=datetime.now(),
+                                    date_to__gte=datetime.now(),
+                                    lang=lang)
+        if len(f) > 0:
+            f = f[0]
+            feed_url = f.url
+            feed_content = f.content
+    except Newsfeed.DoesNotExist:
+        pass
     return render(request, c.template, locals())
 
 

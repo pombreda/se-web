@@ -20,6 +20,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from django.contrib import admin
+from django.core.exceptions import PermissionDenied, ValidationError
 
 from spiralear.website import models as m
 
@@ -61,5 +62,26 @@ class ContentAdmin(admin.ModelAdmin):
     list_display = ("title", url_lang, url_url, "template")
     inlines = [BlockInline]
 
-
 admin.site.register(m.Content, ContentAdmin)
+
+
+class NewsfeedAdmin(admin.ModelAdmin):
+    def short_text(self):
+        trailing = ""
+        if len(self.content) > 64:
+            trailing = " (...)"
+        return self.content[:64] + trailing
+    short_text.short_description = "Treść"
+
+    def short_url(self):
+        trailing = ""
+        if len(self.url) > 64:
+            trailing = " (...)"
+        return self.url[:64] + trailing
+    short_url.short_description = "URL"
+
+    list_display = (short_text, "lang", "date_from", "date_to", short_url)
+    list_filter = ("lang",)
+    search_fields = ("content", "url")
+
+admin.site.register(m.Newsfeed, NewsfeedAdmin)

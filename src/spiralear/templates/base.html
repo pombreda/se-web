@@ -67,6 +67,24 @@
               {%block content%}{%endblock%}
           </div>
         </div>
+        <table class="newsfeed">
+          <tr>
+            <td class="mq">
+              <marquee class="newsfeed">
+              <a href="{{feed_url}}">{{feed_content}}</a>
+              </marquee>
+            </td>
+            <td class="moreinfo">
+              <a href="{{feed_url}}"><img src="/media/img/newsfeed_moreinfo.gif"></a>
+            </td>
+            <td class="fb">
+              <a name="fb_share" type="icon" share_url="http://www.spiralear.com"></a> 
+              <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" 
+                      type="text/javascript">
+              </script>
+            </td>
+          </tr>
+        </table>
         <hr>
         <div id="footer">
         <p>&copy; 2010 Spiral Ear. All Rights Reserved.
