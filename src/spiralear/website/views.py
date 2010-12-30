@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 from collections import defaultdict
 from datetime import datetime
 from random import randint
+from textwrap import dedent
 
 from django.conf import settings
 from django.http import HttpResponseRedirect
@@ -31,33 +32,20 @@ from django.utils.safestring import mark_safe
 from langacore.kit.django.helpers import render
 
 from spiralear.website.models import Page, Url, Content, Block, Newsfeed
-from spiralear.website.models import Language as Lang
-
-EN = Lang.en.id
-PL = Lang.pl.id
-
-_lang_mapping = {
-        'en': EN,
-        'pl': PL,
-}
-
-_lang_reverse = {
-        EN: 'en',
-        PL: 'pl',
-}
+from spiralear.website.models import Language
 
 
 def handler(request, url, lang):
     url = url.lower()
     lang_symbol = lang.lower()
-    lang = _lang_mapping.get(lang)
+    lang = Language.IDFromName(lang_symbol, fallback=Language.en.id)
     try:
         u = Url.objects.get(url=url, lang=lang)
         c = Content.objects.get(url=u)
     except (Url.DoesNotExist, Content.DoesNotExist):
         redirect(request)
 
-    menu = _generate_menu(lang, lang_symbol)
+    menu = _generate_menu(lang)
     _mark_active(menu, u)
     other = [(other.full_link(), other.lang_description(long=True))
                 for other in u.page.get_others()]
@@ -87,7 +75,7 @@ def redirect(request):
 
 def sitemap(request):
     urls = ['http://{}/{}/{}'.format(settings.DOMAIN,
-                _lang_reverse.get(url.lang),
+                Language.NameFromID(url.lang, fallback=''),
                 ("{}/".format(url.url)) if url.url else '')
             for url in Url.objects.all()]
     return render(request, "sitemap.xml", locals(),
@@ -99,16 +87,7 @@ def robots(request):
                   mimetype='text/plain')
 
 
-def _get_lang_symbol(language, alt=False):
-    if language == PL:
-        return 'pl' if not alt else 'en'
-    elif language == EN:
-        return 'en' if not alt else 'pl'
-    else:
-        return ''
-
-
-def _generate_menu(lang, lang_symbol, parent=None):
+def _generate_menu(lang, parent=None):
     menu = []
     for page in Page.objects.filter(parent=parent).order_by("index"):
         try:
@@ -121,7 +100,7 @@ def _generate_menu(lang, lang_symbol, parent=None):
             else:
                 title = "SPIRAL EAR"
 
-            children = _generate_menu(lang, lang_symbol, page)
+            children = _generate_menu(lang, page)
             menu.append({
                 'title': title,
                 'url': url.full_link(),
@@ -154,7 +133,10 @@ class BlockRenderer(object):
         self.blocks = {}
 
     def add(self, block):
-        text = "{%load validation%}\n" + block.text
+        text = dedent("""
+        {%load validation%}
+        {%load descriptions%}
+        """).lstrip() + block.text
         self.blocks[block.name] = Template(text)
 
     def __getitem__(self, key):

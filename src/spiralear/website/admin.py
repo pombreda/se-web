@@ -85,3 +85,19 @@ class NewsfeedAdmin(admin.ModelAdmin):
     search_fields = ("content", "url")
 
 admin.site.register(m.Newsfeed, NewsfeedAdmin)
+
+
+class DescriptionInline(admin.TabularInline):
+    model = m.Description
+
+
+class DescriptionGroupAdmin(admin.ModelAdmin):
+    def entry_sum(self):
+        return str(m.Description.objects.filter(group__id=self.id).count())
+    entry_sum.short_description = "Ilość opisów"
+
+    search_fields = ("name",)
+    list_display = ("name", entry_sum)
+    inlines = [DescriptionInline]
+
+admin.site.register(m.DescriptionGroup, DescriptionGroupAdmin)

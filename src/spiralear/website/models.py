@@ -154,3 +154,29 @@ class Newsfeed(db.Model):
 
     def save(self, *args, **kwargs):
         super(Newsfeed, self).save(*args, **kwargs)
+
+
+class DescriptionGroup(db.Model):
+    name = db.CharField(verbose_name="nazwa", max_length=200)
+
+    class Meta:
+        verbose_name = "grupa opisów"
+        verbose_name_plural = "grupy opisów"
+
+    def __unicode__(self):
+        return self.name
+
+
+class Description(db.Model):
+    group = db.ForeignKey(DescriptionGroup, verbose_name="grupa")
+    lang = db.PositiveIntegerField(verbose_name="język", choices=Language())
+    argument = db.CharField(verbose_name="argument", max_length=200)
+    value = db.TextField(verbose_name="wartość")
+
+    class Meta:
+        verbose_name = "opis"
+        verbose_name_plural = "opisy"
+
+    def __unicode__(self):
+        return ("Opis z grupy '{}' dla argumentu '{}' w języku '{}'"
+                "".format(self.group, self.argument, self.get_lang_display()))
