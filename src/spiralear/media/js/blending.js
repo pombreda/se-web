@@ -76,6 +76,6 @@
   stopSwitchOnMouseover();
 
   $(function () {
-    addAdvertControl();
+    //addAdvertControl();
   });
 })();

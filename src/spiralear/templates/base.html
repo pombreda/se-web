@@ -62,7 +62,7 @@
             </ul>
           </div>
         </div>
-        <div id="content">
+        <div id="content" class="{%block contentclass%}normal{%endblock%}">
           <div id="container">
               {%block content%}{%endblock%}
           </div>
@@ -92,7 +92,10 @@
       </div>
       <script type="text/javascript">
         $(document).ready(function() {
+            $("#menu a[href$=se5-reference\\/]").text("SE 5-way Reference");
+            $("#menu a[href$=se4-reference\\/]").text("SE 4-way Reference");
             $("#menu a[href$=se3-reference\\/]").text("SE 3-way Reference");
+            $("#menu a[href$=se3-pro\\/]").text("SE 3-way Pro");
             $("#menu a[href$=se2-pro\\/]").text("SE 2-way Pro");
             $("#menu a[href$=en\\/more-info\\/audiologists\\/]").text("Audiologist's Info");
             $("#menu ul li").mouseenter(function() {

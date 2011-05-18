@@ -113,12 +113,19 @@ div#menu ul ul ul li:hover ul {
 }
 
 #content {
-  background: url(/media/img/background.png) #fff bottom left no-repeat;
   min-height: 613px;
   width: 963px;
   padding-bottom: 4px;
   padding-top: 23px;
   clear: both;
+}
+
+#content.normal {
+  background: url(/media/img/background.png) #fff bottom left no-repeat;
+}
+
+#content.flagship {
+  background: url(/media/img/background5.png) #fff bottom left no-repeat;
 }
 
 #content-inside {
@@ -236,9 +243,10 @@ hr {
 
 /** text - more info **/
 
+#content-inside.flagship,
 #content-inside.text {
-  background: url(/media/img/background_middle.png) #fff top left repeat-y;
   padding: 50px;
+  background: url(/media/img/background_middle.png) #fff top left repeat-y;
 }
 
 #content-inside.text p {

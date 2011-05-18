@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.webdesign',
+    'gunicorn',
     'langacore.kit.django.common',
     'spiralear.website',
 )
