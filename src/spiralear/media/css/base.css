@@ -5,6 +5,7 @@ html {
 body {
     margin-top: 40px;
     font: 10pt Helvetica Neue, Tahoma, Arial, sans-serif;
+    font-weight: 300;
 }
 
 a {
@@ -88,7 +89,6 @@ a {
 #menu ul ul a {
 	border-right-style: none;
     color: #ffffff;
-    font-weight: lighter;
     font-size: 95%;
 }
 
