@@ -171,6 +171,7 @@ hr {
   padding: 50px;
   text-align: justify;
   font-weight: lighter;
+  background: url(/media/img/background_middle.png) #fff top left repeat-y;
 }
 
 #content-inside.products h1 {
