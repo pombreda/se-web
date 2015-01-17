@@ -1,10 +1,10 @@
 {%extends 'base.html'%}
 {%block title%}{{c.title}}{%endblock%}
+{%block contentclass%}gallery{%endblock%}
 {%block content%}
 <div id="bar"><p>{{c.title}}</div>
 <div id="content-inside" class="gallery">
     {{c.block.list}}
     {{c.block.main}}
-    <p class="small">Photos by Damian Christidis
 </div>
 {%endblock%}

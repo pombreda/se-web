@@ -47,8 +47,16 @@
           <div id="menu">
             <ul>  
             {%for m in menu %}
-            <li class="main"><a href="{{m.url}}" class="main{%if m.active%} active{%endif%}">
-                {{m.title}}</a>
+            <li class="main">
+                {%if m.url%}
+                    <a href="{{m.url}}" class="main{%if m.active%} active{%endif%}">
+                        {{m.title}}
+                    </a>
+                {%else%}
+                    <a class="main noselect">
+                        {{m.title}}
+                    </a>
+                {%endif%}
                 {%if m.children%}
                 <ul>
                     {%for mm in m.children%}

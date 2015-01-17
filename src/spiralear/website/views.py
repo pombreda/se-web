@@ -69,7 +69,6 @@ def handler(request, url, lang):
 
 
 def redirect(request):
-    import pdb; pdb.set_trace()
     try:
         if '/pl/' in request.META['HTTP_REFERER']:
             return HttpResponseRedirect('/pl/')
@@ -94,21 +93,18 @@ def robots(request):
 
 def _generate_menu(lang, parent=None):
     menu = []
-    for page in Page.objects.filter(parent=parent).order_by("index")[1:]:
+    pages = Page.objects.filter(parent=parent).order_by("index")
+    if parent is None:
+        pages = pages[1:]
+    for page in pages:
         try:
             url = Url.objects.get(page=page, lang=lang)
             content = Content.objects.get(url=url)
-
-            # ugly hack
-            if url.url:
-                title = content.title
-            else:
-                title = "SPIRAL EAR"
-
+            title = content.title
             children = _generate_menu(lang, page)
             menu.append({
                 'title': title,
-                'url': url.full_link(),
+                'url': url.full_link() if url.url != "NONE" else None,
                 'active': False, # will be marked after the fact
                 'children': children
             })
