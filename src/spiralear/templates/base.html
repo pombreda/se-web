@@ -43,7 +43,7 @@
               {%endfor%}
         </div>
         <div id="header">
-          <div id="logo"><a href="/"><img src="/media/img/logo.png"></a></div>
+          <div id="logo"><a href="{%if lang_symbol%}/{{lang_symbol}}/{%else%}/{%endif%}"><img src="/media/img/logo.png"></a></div>
           <div id="menu">
             <ul>  
             {%for m in menu %}
@@ -87,7 +87,7 @@
         </table>
         <hr>
         <div id="footer">
-        <p>&copy; 2010-2012 Spiral Ear. All Rights Reserved.
+        <p>&copy; Spiral Ear. All Rights Reserved.
         </div>
       </div>
       <script type="text/javascript">

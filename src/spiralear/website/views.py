@@ -21,7 +21,6 @@ from __future__ import unicode_literals
 
 from collections import defaultdict
 from datetime import datetime
-from random import randint
 from textwrap import dedent
 
 from django.conf import settings
@@ -70,6 +69,12 @@ def handler(request, url, lang):
 
 
 def redirect(request):
+    import pdb; pdb.set_trace()
+    try:
+        if '/pl/' in request.META['HTTP_REFERER']:
+            return HttpResponseRedirect('/pl/')
+    except Exception:
+        pass
     return HttpResponseRedirect('/en/')
 
 
@@ -89,7 +94,7 @@ def robots(request):
 
 def _generate_menu(lang, parent=None):
     menu = []
-    for page in Page.objects.filter(parent=parent).order_by("index"):
+    for page in Page.objects.filter(parent=parent).order_by("index")[1:]:
         try:
             url = Url.objects.get(page=page, lang=lang)
             content = Content.objects.get(url=url)
