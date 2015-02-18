@@ -1,8 +1,31 @@
 {%extends 'base.html'%}
+{%block js%}
+    imagePreview = function(){ 
+      $("a.preview").hover(function(e){
+        this.t = this.title;
+        this.title = "";  
+        var c = (this.t != "") ? this.t : "";
+        $("body").append("<div id='colorzoom'><div>"+ c +"</div><img src='"+ this.rel +"' style='max-width:200px;' alt='" + c + "' /></div>"); 
+        },
+      function(){
+        this.title = this.t;  
+        $("#colorzoom").remove();
+        }); 
+      $("a.preview").mousemove(function(e){
+        $("#colorzoom")
+          .css("top",(e.pageY + 30) + "px")
+          .css("left",(e.pageX - 100) + "px");
+      });     
+    };
+    $(document).ready(function(){
+      imagePreview();
+    });
+{%endblock%}
 {%block title%}{{c.title}}{%endblock%}
 {%block content%}
 <div id="bar"><p>{{c.title}}</div>
 <div id="content-inside" class="contact">
     {{c.block.main}}
+<div id="log"></div>
 </div>
 {%endblock%}

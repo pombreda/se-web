@@ -35,6 +35,7 @@ from spiralear.website.models import Language
 
 
 def handler(request, url, lang):
+    bump = 1
     url = url.lower()
     lang_symbol = lang.lower()
     lang = Language.IDFromName(lang_symbol, fallback=Language.en.id)
