@@ -79,10 +79,17 @@ def redirect(request):
 
 
 def sitemap(request):
-    urls = ['http://{}/{}/{}'.format(settings.DOMAIN,
-                Language.NameFromID(url.lang, fallback=''),
-                ("{}/".format(url.url)) if url.url else '')
-            for url in Url.objects.all()]
+    urls = []
+    for url in Url.objects.all():
+        if 'NONE' in url.url:
+            continue
+        lang = Language.NameFromID(url.lang, fallback='')
+        link = "{}/".format(url.url) if url.url else ''
+        urls.append('http://{}/{}/{}'.format(
+            settings.DOMAIN,
+            lang,
+            link,
+        ))
     return render(request, "sitemap.xml", locals(),
                   mimetype='application/xml')
 
